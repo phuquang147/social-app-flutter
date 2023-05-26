@@ -1,8 +1,9 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:special_app/models/Comment.dart';
-import 'package:special_app/models/Post.dart';
+import 'package:special_app/models/post.dart';
 import 'package:special_app/models/story.dart';
+import 'package:special_app/models/user.dart';
 import 'package:special_app/widgets/Post.dart';
 
 void main() {
@@ -46,8 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
     10,
     (index) => PostModel(
       id: index.toString(),
-      name: faker.person.name(),
-      avatar: faker.image.image(),
+      user: User(
+        id: index.toString() + "random",
+        avatar: faker.image.image(),
+        name: faker.person.name(),
+      ),
       comments: List<Comment>.generate(
         3,
         (index) => Comment(
@@ -65,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Home"),
       ),
       body: Padding(
         padding: EdgeInsets.all(16),

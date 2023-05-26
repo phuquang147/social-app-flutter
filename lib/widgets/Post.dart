@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:special_app/models/Post.dart';
+import 'package:special_app/models/post.dart';
+import 'package:special_app/screens/ProfileScreen.dart';
 
 class Post extends StatefulWidget {
   final PostModel post;
@@ -31,27 +32,40 @@ class _PostState extends State<Post> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image(
-                          image: NetworkImage(widget.post.avatar),
-                          fit: BoxFit.cover,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreen(),
+                            settings: RouteSettings(
+                              arguments: widget.post,
+                            ),
+                          ),
+                        );
+                      },
+                      child: SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image(
+                            image: NetworkImage(widget.post.user.avatar),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(left: 8),
                       child: Text(
-                        widget.post.name,
+                        widget.post.user.name,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Container(
@@ -66,9 +80,11 @@ class _PostState extends State<Post> {
                   children: <Widget>[
                     TextButton(
                       onPressed: () {
-                        setState(() {
-                          _openComments = !_openComments;
-                        });
+                        setState(
+                          () {
+                            _openComments = !_openComments;
+                          },
+                        );
                       },
                       child: const Text("View comments"),
                     ),
